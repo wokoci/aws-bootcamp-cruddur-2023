@@ -18,6 +18,12 @@ Created a docker file for the frontend React js application and ran the followin
 docker build -t frontend-react-js ./rontend-react-js
 ~~~
 
+Run the frontend app with :
+~~~
+docker run -p 3000:3000 -d frontend-react-js
+~~~
+
+
 Ran npm command to install all needed dependences need to run node as well npm audit for fix potential vulnerabilities.
 ~~~
 npm install 
