@@ -378,8 +378,14 @@ built the backend docker file locally and ran on my laptop
 ![image](https://user-images.githubusercontent.com/1112540/222287938-71d574f4-2cc3-4640-9894-6fd9175432cc.png)
 
 
+## Run Codebase locally
 
-
+~~~
+    FRONTEND_URL: "http://localhost:3000"
+    BACKEND_URL: "http://localhost:4567"
+~~~
+image of docker ps
+![image](https://user-images.githubusercontent.com/1112540/222292522-9a9f232f-4dc6-431e-9b7a-ce491b7d56b3.png)
 
 
 
