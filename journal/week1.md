@@ -387,8 +387,32 @@ built the backend docker file locally and ran on my laptop
 image of docker ps
 ![image](https://user-images.githubusercontent.com/1112540/222292522-9a9f232f-4dc6-431e-9b7a-ce491b7d56b3.png)
 
+### install and run docker on EC2 instance
+sudo su
 
+Yum update -y
 
+Yum install docker
+
+# add docker group
+
+groupadd docker
+
+# add  docker user to docker group
+sudo usermod -aG docker $USER
+
+# start and enable the docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# disconnect from terminals and reconnect for changes to take effect
+
+Run a docker container for nginx
+
+docker run -d -p 80:80 nginx 
+
+￼
+![Pasted Graphic](https://user-images.githubusercontent.com/1112540/222413220-62a2fe7d-8e3b-4a28-a193-623cc5b0f68a.png)
 
 
 
