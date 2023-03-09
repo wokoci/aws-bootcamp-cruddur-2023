@@ -1,17 +1,17 @@
 from datetime import datetime, timedelta, timezone
 
-from opentelemetry import trace
-trace = trace.get_trace("home.activity.trace")
+# from opentelemetry import tracer
+# tracer = tracer.get_tracer("home.activity.trace")
 
 
 class HomeActivities:
   def run():
-    # tracerf or home. activity to send spans to honeycomb
-    with tracer.start_as_current_span("home-activity-mock-data-data") as outer_span:
-      span = trace.get_current_span()
-      now = datetime.now(timezone.utc).astimezone()
-      span.set_attribute("app.now", now.isoformat())
-      outer_span.set_attribute("outer", True)
+    # tracer  for home. activity to send spans to honeycomb
+    # with tracer.start_as_current_span("home-activity-mock-data-data") as outer_span:
+    #   span = tracer.get_current_span()
+    #   now = datetime.now(timezone.utc).astimezone()
+    #   span.set_attribute("app.now", now.isoformat())
+    #   outer_span.set_attribute("outer", True)
       now = datetime.now(timezone.utc).astimezone()
       results = [{
         'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
@@ -52,7 +52,8 @@ class HomeActivities:
         'replies': []
       }
       ]
-      span.set_attribute("app.result-lenght", len(results))
+      # span.set_attribute("app.result-lenght", len(results))
+      print(results)
       return results
 
       
