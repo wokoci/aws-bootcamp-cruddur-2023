@@ -1,7 +1,16 @@
 from datetime import datetime, timedelta, timezone
+
+from opentelemetry import trace
+tracer = trace.get_tracer("notifications.activity.tracer")
+
+
 class NotificationsActivities:
   def run():
-    now = datetime.now(timezone.utc).astimezone()
+    with tracer.start_as_current_span("notification-activity.mock-data"):
+        span = trace.get_current_span()
+        now = datetime.now(timezone.utc).astimezone()
+        span.set_attribute("notifications.result", now.astimezone())
+
 
     results = [{
       'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
@@ -24,5 +33,6 @@ class NotificationsActivities:
       }],
     },
     ]
+    span.set_attribute("app.results", len(results))
     return results
 
