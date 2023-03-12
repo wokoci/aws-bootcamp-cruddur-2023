@@ -4,8 +4,7 @@ from opentelemetry import trace
 tracer = trace.get_tracer("home.activity.tracer")
 
 class HomeActivities:
-  def run(logger):
-    logger.info("HomeActivityKKK")
+  def run():
     with tracer.start_as_current_span("home-activity") as outer_span:
       with tracer.start_as_current_span("inner-home-activity") as inner_span:
           outer_span.set_attribute("entering call", True)
