@@ -12,7 +12,8 @@ from services.message_groups import *
 from services.notifications_activities import *
 from services.messages import *
 from services.create_message import *
-from services.show_activity import *
+# from services.show_activity import *
+import services.show_activity as show_activity
 
 # imports for rollbar bellow -----------
 import os
@@ -58,8 +59,8 @@ provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
 provider.add_span_processor(processor)
 # this logs to standard out
-simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
-provider.add_span_processor(simple_processor)
+# simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+# provider.add_span_processor(simple_processor)
 
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
