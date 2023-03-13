@@ -5,12 +5,17 @@ import { Link } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 
 
+export default function SigninPage() {
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [errors, setErrors] = React.useState('');
 
 const onsubmit = async (event) => {
   setErrors('')
   event.preventDefault();
   try {
-    Auth.signIn(username, password)
+    Auth.signIn(email, password)
       .then(user => {
         localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
         window.location.href = "/"
@@ -25,9 +30,9 @@ const onsubmit = async (event) => {
   return false
 }
 
-let errors;
-if (cognitoErrors){
-  errors = <div className='errors'>{cognitoErrors}</div>;
+ let el_errors;
+if (errors){
+  el_errors = <div className='errors'>{errors}</div>;
 }
 
   const email_onchange = (event) => {
@@ -37,7 +42,6 @@ if (cognitoErrors){
     setPassword(event.target.value);
   }
 
-  let el_errors;
   if (errors){
     el_errors = <div className='errors'>{errors}</div>;
   }
@@ -88,3 +92,4 @@ if (cognitoErrors){
 
     </article>
   );
+}
