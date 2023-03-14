@@ -14,25 +14,26 @@ export default function SigninPage() {
 const onsubmit = async (event) => {
   setErrors('')
   event.preventDefault();
-  try {
     Auth.signIn(email, password)
       .then(user => {
+        console.log("user",user)
         localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
         window.location.href = "/"
       })
-      .catch(err => { console.log('Error!', err) });
-  } catch (error) {
-    if (error.code == 'UserNotConfirmedException') {
-      window.location.href = "/confirm"
-    }
-    setErrors(error.message)
-  }
+      .catch(error => { 
+        console.log(error)
+        if (error.code == 'UserNotConfirmedException') {
+          window.location.href = "/confirm"
+        }
+        setErrors(error.message)
+        console.log(error.message+ "----- ")
+       });
   return false
 }
 
  let el_errors;
 if (errors){
-  el_errors = <div className='errors'>{errors}</div>;
+  el_errors = <div className='errors'>{errors.message}</div>;
 }
 
   const email_onchange = (event) => {
