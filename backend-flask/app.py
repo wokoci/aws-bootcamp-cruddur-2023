@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, logging
 from flask import request
 from flask_cors import CORS, cross_origin
+from lib.cognito_jwt_token import CognitoJwtToken, extract_access_token, TokenVerifyError
 import os
 
 from services.home_activities import *
@@ -43,6 +44,25 @@ from flask import got_request_exception
 # xray_url = os.getenv("AWS_XRAY_URL")
 # xray_recorder.configure(service='Cruddur', dynamic_naming=xray_url)
 
+# flask logging
+debug = eval(os.environ.get("DEBUG", "True "))
+from logging.config import dictConfig
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
+
 
 #Honeycomb  ---------------
 from opentelemetry import trace
@@ -67,6 +87,12 @@ tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
 
+# add config for AWS_FLASK_TOKEN_CHECK
+cognito_jwt_token = CognitoJwtToken(
+  user_pool_id=os.getenv("AWS_COGNITO_USER_POOL_ID"), 
+  user_pool_client_id=os.getenv("AWS_COGNITO_USER_POOL_CLIENT_ID"),
+  region=os.getenv("AWS_DEFAULT_REGION")
+) 
 # Rollbar init script below -------------
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
 @app.before_first_request
@@ -156,7 +182,19 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 # @xray_recorder.capture('activities_home')
 def data_home():
-  data = HomeActivities.run()
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token, None)
+    # authenticated request
+    app.logger.error("Authenticated")
+    app.logger.error(claims)
+    app.logger.error(claims['username'])
+    data = HomeActivities.run()
+  except TokenVerifyError as e:
+    # unauthenticated request
+    app.logger.error(e)
+    app.logger.error("Unauthenticated request")
+    data = HomeActivities.run()
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
