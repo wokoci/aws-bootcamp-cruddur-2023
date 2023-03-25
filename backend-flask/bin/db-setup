@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+-e.   # do not proceed to next step on failure
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-setup"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+echo "== db-setup"
+
+# bin-path="$(realpath .)/backend-flask/bin
+bin_path="$(realpath .)/backend-flask/bin"
+
+source "$bin_path/db-drop"
+source "$bin_path/db-create"
+source "$bin_path/db-load"
+source "$bin_path/db-seed"
