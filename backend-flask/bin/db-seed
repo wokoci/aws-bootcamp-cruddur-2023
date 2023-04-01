@@ -6,7 +6,7 @@ LABEL="db-seed"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 echo "== db-Seed"
 
-seed_path=$(realpath .)/backend-flask/db/seed.sql
+seed_path="$(realpath .)/db/seed.sql"
 echo $seed_path
 echo "== db-seed"
 

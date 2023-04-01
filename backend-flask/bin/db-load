@@ -6,7 +6,7 @@ LABEL="db-schema-load"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 echo "== DB-Schema-load"
 
-schema_path=$(realpath .)/backend-flask/db/schema.sql
+schema_path=$(realpath .)/db/schema.sql
 echo $schema_path
 echo "== DB-Schema-load"
 
