@@ -12,9 +12,10 @@ echo "== DB-Schema-load"
 
 if [ "$1" = "prod" ]; then
 echo "Connecting to production instance of DB instance"
-    CON_URL = $PROD_CONNECTION_URL
+    URL=$PROD_CONNECTION_URL
 else
     echo "==Connection to development instance"
-    CON_URL=$CONNECTION_URL
+    URL=$CONNECTION_URL
 fi
-psql $CONNECTION_URL cruddur < $schema_path
+
+psql $URL
