@@ -31,6 +31,6 @@ class HomeActivities:
           cur.execute(sql)
           # this will return a tuple
           # the first field being the data
-          json = cur.fetchone()
+          json = cur.fetchall()
           print(json)
       return json[0]
