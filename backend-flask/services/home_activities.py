@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from lib.db import pool, query_wrap_array
+from lib.db import db
 
 # from opentelemetry import trace
 # tracer = trace.get_tracer("home.activity.tracer")
@@ -9,7 +9,7 @@ class HomeActivities:
     #logger.info("HomeActivities")
       # with tracer.start_as_current_span("home-activites-mock-data"):
 
-      sql = query_wrap_array("""
+      results = db.query_array_json("""
       SELECT
         activities.uuid,
         users.display_name,
@@ -25,12 +25,4 @@ class HomeActivities:
       LEFT JOIN public.users ON users.uuid = activities.user_uuid
       ORDER BY activities.created_at DESC
       """)
-      print(sql)
-      with pool.connection() as conn:
-        with conn.cursor() as cur:
-          cur.execute(sql)
-          # this will return a tuple
-          # the first field being the data
-          json = cur.fetchall()
-          print(json)
-      return json[0]
+      return results
