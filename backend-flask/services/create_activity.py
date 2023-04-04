@@ -72,6 +72,7 @@ def create_activity(user_uuid, message, expires_at):
     conn. commit ()
   except Exception as err:
     print_sql_err(err)
+    # conn.rollback()
 
 
     
